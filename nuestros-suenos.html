@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuestros Sueños ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f1a;
+      --surface: #141628;
+      --surface2: #1c1f38;
+      --border: rgba(255,255,255,0.07);
+      --gold: #f2c057;
+      --gold-light: #fde68a;
+      --rose: #f87171;
+      --teal: #5eead4;
+      --lavender: #a78bfa;
+      --text: #e8e4d9;
+      --muted: #8884a0;
+      --radius: 18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Stars background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 30%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 20% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 40%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 90%, rgba(255,255,255,0.3) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+    /* ── SETUP SCREEN ───────────────────────────────── */
+    #setup-screen {
+      display: none;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+    #setup-screen.visible { display: flex; }
+    .setup-card {
+      background: var(--surface);
+      border: 1px solid rgba(242,192,87,0.2);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+    }
+    .setup-card .setup-icon { font-size: 3rem; margin-bottom: 16px; }
+    .setup-card h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--gold-light);
+      margin-bottom: 10px;
+    }
+    .setup-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 28px; }
+    .setup-steps { text-align: left; margin-bottom: 28px; }
+    .setup-step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .step-num {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, #c9933d, var(--gold));
+      border-radius: 50%;
+      color: #0d0f1a;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-text { font-size: 0.88rem; color: var(--text); line-height: 1.5; }
+    .step-text code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 1px 6px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      color: var(--gold);
+    }
+    .setup-inputs { display: grid; gap: 12px; margin-bottom: 20px; }
+    .setup-input-group label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-align: left;
+    }
+    .setup-input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .setup-input-group input:focus { border-color: var(--gold); }
+    .setup-input-group input::placeholder { color: var(--muted); }
+    .btn-setup {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #c9933d, var(--gold));
+      border: none;
+      border-radius: 12px;
+      color: #0d0f1a;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-setup:hover { opacity: 0.9; transform: translateY(-1px); }
+    .setup-note {
+      margin-top: 16px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── LOADING OVERLAY ────────────────────────────── */
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      transition: opacity 0.4s;
+    }
+    #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .loader-emoji { font-size: 2.5rem; animation: pulse 1.5s ease-in-out infinite; }
+    .loader-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .loader-dots span {
+      display: inline-block;
+      animation: bounce 1.2s ease-in-out infinite;
+      color: var(--gold);
+    }
+    .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+    /* ── SYNC INDICATOR ─────────────────────────────── */
+    #sync-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--teal), var(--gold));
+      background-size: 200% 100%;
+      animation: syncSlide 1.2s linear infinite;
+      z-index: 200;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #sync-bar.active { opacity: 1; }
+    @keyframes syncSlide { 0%{background-position:200% 0} 100%{background-position:0% 0} }
+
+    .sync-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .sync-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+    }
+    .sync-dot.saving { background: var(--gold); animation: pulse 0.8s ease-in-out infinite; }
+    .sync-dot.error { background: var(--rose); }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    header {
+      padding: 48px 0 32px;
+      text-align: center;
+    }
+    .header-eyebrow {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+    header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    header h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+    header p { margin-top: 10px; color: var(--muted); font-size: 0.95rem; font-weight: 300; }
+    .header-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 14px auto 0;
+    }
+    /* ── COUPLE CARD ────────────────────────────────── */
+    .couple-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin: 24px auto 0;
+      width: fit-content;
+    }
+    .couple-photo-wrap {
+      position: relative;
+      cursor: pointer;
+      group: true;
+    }
+    .couple-photo-wrap:hover .photo-overlay { opacity: 1; }
+    .couple-photo {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2.5px solid rgba(242,192,87,0.5);
+      box-shadow: 0 0 0 4px rgba(242,192,87,0.08), 0 8px 24px rgba(0,0,0,0.4);
+      display: block;
+      background: var(--surface2);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .couple-photo-wrap:hover .couple-photo {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(242,192,87,0.2), 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: rgba(13,15,26,0.65);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .photo-overlay span:first-child { font-size: 1.3rem; }
+    .photo-overlay span:last-child  { font-size: 0.65rem; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+    .photo-placeholder {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 2px dashed rgba(242,192,87,0.3);
+      background: var(--surface2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      box-shadow: 0 0 0 4px rgba(242,192,87,0.05);
+    }
+    .photo-placeholder:hover { border-color: var(--gold); background: rgba(242,192,87,0.05); }
+    .photo-placeholder .ph-icon  { font-size: 1.6rem; opacity: 0.5; }
+    .photo-placeholder .ph-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .couple-names {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .couple-names .heart { color: var(--rose); font-size: 0.75rem; }
+    .couple-names .name-editable {
+      cursor: pointer;
+      border-bottom: 1px dashed transparent;
+      transition: border-color 0.2s, color 0.2s;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+      letter-spacing: inherit;
+      text-align: center;
+      width: auto;
+      min-width: 40px;
+      max-width: 140px;
+    }
+    .couple-names .name-editable:hover,
+    .couple-names .name-editable:focus {
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+    .couple-tagline {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      border-bottom: 1px dashed transparent;
+      transition: border-color 0.2s, color 0.2s;
+      outline: none;
+      background: transparent;
+      font-family: 'Cormorant Garamond', serif;
+      text-align: center;
+      min-width: 80px;
+      max-width: 280px;
+    }
+    .couple-tagline:hover,
+    .couple-tagline:focus { border-color: var(--muted); color: var(--text); }
+    #photo-file-input { display: none; }
+
+    .header-sync-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .btn-refresh {
+      padding: 5px 14px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-refresh:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-config {
+      padding: 5px 12px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-config:hover { border-color: var(--lavender); color: var(--lavender); }
+
+    /* ── SUMMARY STRIP ──────────────────────────────── */
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 32px 0;
+    }
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+    .summary-card .label { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .summary-card .value { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 600; }
+    .summary-card .value.gold { color: var(--gold); }
+    .summary-card .value.teal { color: var(--teal); }
+    .summary-card .value.rose { color: var(--rose); }
+
+    /* ── TABS ───────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 5px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #1f2347, #2a2d52);
+      color: var(--gold);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+
+    /* ── GOALS GRID ─────────────────────────────────── */
+    .goals-grid { display: grid; gap: 20px; }
+
+    .goal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: fadeUp 0.4s ease both;
+    }
+    .goal-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .goal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-color, var(--gold));
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .goal-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .goal-emoji {
+      font-size: 2.2rem;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface2);
+      border-radius: 14px;
+      flex-shrink: 0;
+    }
+    .goal-info { flex: 1; }
+    .goal-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .goal-desc { color: var(--muted); font-size: 0.85rem; font-weight: 300; }
+    .goal-actions { display: flex; gap: 6px; }
+    .icon-btn {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .icon-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+    /* ── PROGRESS ───────────────────────────────────── */
+    .goal-progress-area { margin-bottom: 18px; }
+    .progress-numbers {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .progress-saved {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+    .progress-target { font-size: 0.85rem; color: var(--muted); }
+    .progress-pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .progress-bar-bg {
+      height: 8px;
+      background: var(--surface2);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--accent-color, var(--gold));
+      transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2.5s infinite;
+    }
+    @keyframes shimmer { to { left: 200%; } }
+
+    /* ── STATS ROW ──────────────────────────────────── */
+    .goal-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .stat-box {
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .stat-box .s-label { font-size: 0.65rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .stat-box .s-value { font-size: 0.95rem; font-weight: 500; }
+
+    /* ── STATUS BADGE ───────────────────────────────── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+    .status-badge.on-track  { background: rgba(94,234,212,0.1);  color: var(--teal);    border: 1px solid rgba(94,234,212,0.2); }
+    .status-badge.behind    { background: rgba(248,113,113,0.1); color: var(--rose);    border: 1px solid rgba(248,113,113,0.2); }
+    .status-badge.completed { background: rgba(242,192,87,0.15); color: var(--gold);    border: 1px solid rgba(242,192,87,0.3); }
+    .status-badge.no-date   { background: rgba(167,139,250,0.1); color: var(--lavender);border: 1px solid rgba(167,139,250,0.2); }
+
+    /* ── ADD SAVINGS BTN ────────────────────────────── */
+    .add-savings-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 10px;
+      background: transparent;
+      border: 1px dashed rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .add-savings-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(242,192,87,0.05);
+    }
+
+    /* ── HISTORY MINI ───────────────────────────────── */
+    .history-mini { margin-top: 12px; }
+    .history-mini-title { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .history-entry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.83rem;
+    }
+    .history-entry:last-child { border-bottom: none; }
+    .h-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .h-amount { font-weight: 600; color: var(--teal); margin-left: auto; }
+    .h-date { color: var(--muted); font-size: 0.75rem; }
+    .h-delete { color: var(--muted); cursor: pointer; font-size: 0.75rem; transition: color 0.2s; }
+    .h-delete:hover { color: var(--rose); }
+
+    /* ── EMPTY STATE ────────────────────────────────── */
+    .empty-state { text-align: center; padding: 64px 20px; color: var(--muted); }
+    .empty-state .big-emoji { font-size: 3rem; margin-bottom: 16px; }
+    .empty-state h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--text); margin-bottom: 8px; }
+
+    /* ── MODALS ─────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 9, 20, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 36px;
+      width: 100%;
+      max-width: 480px;
+      transform: translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+    .modal h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { border-color: var(--gold); }
+    .form-control::placeholder { color: var(--muted); }
+
+    .emoji-picker {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .emoji-option {
+      font-size: 1.4rem;
+      height: 42px;
+      border: 1.5px solid var(--border);
+      background: var(--surface2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .emoji-option:hover, .emoji-option.selected { border-color: var(--gold); background: rgba(242,192,87,0.1); }
+
+    .color-picker { display: flex; gap: 8px; flex-wrap: wrap; }
+    .color-swatch {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all 0.15s;
+    }
+    .color-swatch.selected { border-color: white; transform: scale(1.15); }
+
+    .modal-footer { display: flex; gap: 10px; margin-top: 24px; }
+    .btn {
+      flex: 1;
+      padding: 13px;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary { background: linear-gradient(135deg, #c9933d, var(--gold)); color: #0d0f1a; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+    .btn-secondary:hover { color: var(--text); }
+
+    /* ── FAB ────────────────────────────────────────── */
+    .fab {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      width: 58px; height: 58px;
+      background: linear-gradient(135deg, #c9933d, var(--gold));
+      border: none;
+      border-radius: 50%;
+      color: #0d0f1a;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(242,192,87,0.35);
+      transition: all 0.2s;
+      z-index: 50;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fab:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(242,192,87,0.45); }
+
+    /* ── HISTORY PANEL ──────────────────────────────── */
+    .history-panel { display: none; }
+    .history-panel.active { display: block; }
+    .history-full-entry {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .h-emoji-badge {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .h-info { flex: 1; }
+    .h-info .h-goal { font-size: 0.75rem; color: var(--muted); }
+    .h-info .h-note { font-size: 0.88rem; color: var(--text); }
+    .h-right { text-align: right; }
+    .h-right .h-amt { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--teal); font-weight: 600; }
+    .h-right .h-d { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── TOAST ──────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      z-index: 200;
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .summary-strip { grid-template-columns: repeat(3,1fr); gap: 8px; }
+      .summary-card { padding: 14px 10px; }
+      .summary-card .value { font-size: 1.4rem; }
+      .goal-stats { grid-template-columns: repeat(3,1fr); }
+      header h1 { font-size: 2.2rem; }
+      .modal { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOADING OVERLAY ────────────────────────────── -->
+<div id="loading-overlay">
+  <div class="loader-emoji">✨</div>
+  <div class="loader-text">Cargando sus sueños<span class="loader-dots"><span>.</span><span>.</span><span>.</span></span></div>
+</div>
+
+<!-- ── SYNC BAR ───────────────────────────────────── -->
+<div id="sync-bar"></div>
+
+<!-- ── SETUP SCREEN ───────────────────────────────── -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-icon">🔑</div>
+    <h2>Configurar la app</h2>
+    <p>Para que los dos puedan ver y editar sus metas desde cualquier dispositivo, necesitas conectar un almacenamiento en la nube con JSONBin.io.</p>
+
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Ve a <strong style="color:var(--gold)">jsonbin.io</strong> y crea una cuenta gratis.</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">2</div>
+        <div class="step-text">En el menú lateral ve a <code>API Keys</code> y copia tu <strong>Master Key</strong>.</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Ve a <code>Bins</code> → <code>Create Bin</code>, ingresa <code>{"goals":[],"savings":[]}</code> y guarda. Copia el <strong>Bin ID</strong>.</div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">4</div>
+        <div class="step-text">Pega ambas claves aquí abajo y listo — los datos quedan en la nube.</div>
+      </div>
+    </div>
+
+    <div class="setup-inputs">
+      <div class="setup-input-group">
+        <label>Master Key</label>
+        <input type="password" id="setup-key" placeholder="$2a$10$..." />
+      </div>
+      <div class="setup-input-group">
+        <label>Bin ID</label>
+        <input type="text" id="setup-bin" placeholder="6634abc123def456..." />
+      </div>
+    </div>
+
+    <button class="btn-setup" onclick="applySetup()">Conectar y comenzar ✨</button>
+    <p class="setup-note">Las claves se guardan solo en este dispositivo (localStorage). Comparte este mismo archivo HTML configurado con tu pareja, o configúralo en cada dispositivo.</p>
+  </div>
+</div>
+
+<!-- ── APP ────────────────────────────────────────── -->
+<div id="app" style="display:none">
+  <div class="container">
+    <header>
+      <p class="header-eyebrow">✦ Nuestro Camino ✦</p>
+      <h1>Sueños en <em>Común</em></h1>
+      <p>Cada peso que ahorran juntos, los acerca un poco más.</p>
+      <div class="header-divider"></div>
+
+      <!-- ── CARNET DE PAREJA ── -->
+      <div class="couple-card">
+        <div class="couple-photo-wrap" onclick="document.getElementById('photo-file-input').click()" title="Cambiar foto">
+          <img class="couple-photo" id="couple-img" src="" alt="Foto de pareja" style="display:none" />
+          <div class="photo-placeholder" id="photo-placeholder">
+            <span class="ph-icon">📷</span>
+            <span class="ph-label">Agregar foto</span>
+          </div>
+          <div class="photo-overlay">
+            <span>📷</span>
+            <span>Cambiar</span>
+          </div>
+        </div>
+        <input type="file" id="photo-file-input" accept="image/*" onchange="handlePhotoUpload(event)" />
+        <div class="couple-names">
+          <input class="name-editable" id="name1" value="Nombre 1" maxlength="20"
+                 onblur="saveNames()" onkeydown="if(event.key==='Enter')this.blur()" />
+          <span class="heart">♥</span>
+          <input class="name-editable" id="name2" value="Nombre 2" maxlength="20"
+                 onblur="saveNames()" onkeydown="if(event.key==='Enter')this.blur()" />
+        </div>
+        <input class="couple-tagline" id="couple-tagline"
+               value="Juntos hacia cada sueño ✨" maxlength="60"
+               onblur="saveNames()" onkeydown="if(event.key==='Enter')this.blur()" />
+      </div>
+      <!-- ── fin carnet ── -->
+
+      <div class="header-sync-row">
+        <div class="sync-status">
+          <div class="sync-dot" id="sync-dot"></div>
+          <span id="sync-label">Sincronizado</span>
+        </div>
+        <button class="btn-refresh" onclick="refreshData()">↻ Actualizar</button>
+        <button class="btn-config" onclick="showSetup()">⚙ Config</button>
+      </div>
+    </header>
+
+    <div class="summary-strip">
+      <div class="summary-card">
+        <div class="label">Total Ahorrado</div>
+        <div class="value gold" id="total-saved">$0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Metas Activas</div>
+        <div class="value teal" id="active-goals">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Por Alcanzar</div>
+        <div class="value rose" id="total-remaining">$0</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('goals')">🌟 Nuestras Metas</button>
+      <button class="tab-btn" onclick="showTab('history')">📋 Historial</button>
+    </div>
+
+    <div id="tab-goals">
+      <div class="goals-grid" id="goals-list"></div>
+    </div>
+
+    <div id="tab-history" class="history-panel">
+      <div id="history-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FAB ────────────────────────────────────────── -->
+<button class="fab" onclick="openGoalModal()" title="Nueva meta" id="fab" style="display:none">+</button>
+
+<!-- ── MODAL: NUEVA META ──────────────────────────── -->
+<div class="modal-overlay" id="goal-modal">
+  <div class="modal">
+    <h2 id="goal-modal-title">✨ Nueva Meta</h2>
+
+    <div class="form-group">
+      <label>Nombre del Sueño</label>
+      <input type="text" class="form-control" id="g-name" placeholder="Ej: Viaje a Europa" />
+    </div>
+    <div class="form-group">
+      <label>Descripción (opcional)</label>
+      <input type="text" class="form-control" id="g-desc" placeholder="Cuéntanos un poco..." />
+    </div>
+    <div class="form-group">
+      <label>Ícono</label>
+      <div class="emoji-picker" id="emoji-picker">
+        <span class="emoji-option selected" data-emoji="✈️">✈️</span>
+        <span class="emoji-option" data-emoji="🏠">🏠</span>
+        <span class="emoji-option" data-emoji="🚗">🚗</span>
+        <span class="emoji-option" data-emoji="💍">💍</span>
+        <span class="emoji-option" data-emoji="🎓">🎓</span>
+        <span class="emoji-option" data-emoji="🌴">🌴</span>
+        <span class="emoji-option" data-emoji="👶">👶</span>
+        <span class="emoji-option" data-emoji="🐾">🐾</span>
+        <span class="emoji-option" data-emoji="💻">💻</span>
+        <span class="emoji-option" data-emoji="🎸">🎸</span>
+        <span class="emoji-option" data-emoji="🏋️">🏋️</span>
+        <span class="emoji-option" data-emoji="🛍️">🛍️</span>
+        <span class="emoji-option" data-emoji="🎉">🎉</span>
+        <span class="emoji-option" data-emoji="🌟">🌟</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Color Acento</label>
+      <div class="color-picker" id="color-picker">
+        <div class="color-swatch selected" data-color="#f2c057" style="background:#f2c057;"></div>
+        <div class="color-swatch" data-color="#f87171" style="background:#f87171;"></div>
+        <div class="color-swatch" data-color="#5eead4" style="background:#5eead4;"></div>
+        <div class="color-swatch" data-color="#a78bfa" style="background:#a78bfa;"></div>
+        <div class="color-swatch" data-color="#60a5fa" style="background:#60a5fa;"></div>
+        <div class="color-swatch" data-color="#fb923c" style="background:#fb923c;"></div>
+        <div class="color-swatch" data-color="#a3e635" style="background:#a3e635;"></div>
+        <div class="color-swatch" data-color="#f472b6" style="background:#f472b6;"></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Meta ($)</label>
+        <input type="number" class="form-control" id="g-target" placeholder="5000000" />
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Fecha Límite</label>
+        <input type="date" class="form-control" id="g-date" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeGoalModal()">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-goal" onclick="saveGoal()">Guardar Meta ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: AGREGAR AHORRO ──────────────────────── -->
+<div class="modal-overlay" id="savings-modal">
+  <div class="modal">
+    <h2>💰 Agregar Ahorro</h2>
+    <p style="color:var(--muted);font-size:0.88rem;margin:-10px 0 20px;">Meta: <span id="sm-goal-name" style="color:var(--gold)"></span></p>
+    <div class="form-group">
+      <label>Monto ($)</label>
+      <input type="number" class="form-control" id="s-amount" placeholder="0" />
+    </div>
+    <div class="form-group">
+      <label>Fecha</label>
+      <input type="date" class="form-control" id="s-date" />
+    </div>
+    <div class="form-group">
+      <label>Nota (opcional)</label>
+      <input type="text" class="form-control" id="s-note" placeholder="Quincena, regalo, etc." />
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeSavingsModal()">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-saving" onclick="saveSaving()">Registrar 🚀</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CARNET DE PAREJA ─────────────────────────────────
+const LS_PHOTO   = 'suenos-couple-photo';
+const LS_NAME1   = 'suenos-name1';
+const LS_NAME2   = 'suenos-name2';
+const LS_TAGLINE = 'suenos-tagline';
+
+function loadCoupleCard() {
+  const photo   = localStorage.getItem(LS_PHOTO);
+  const name1   = localStorage.getItem(LS_NAME1);
+  const name2   = localStorage.getItem(LS_NAME2);
+  const tagline = localStorage.getItem(LS_TAGLINE);
+
+  if (photo) showPhoto(photo);
+  if (name1)   document.getElementById('name1').value           = name1;
+  if (name2)   document.getElementById('name2').value           = name2;
+  if (tagline) document.getElementById('couple-tagline').value  = tagline;
+}
+
+function showPhoto(src) {
+  const img = document.getElementById('couple-img');
+  const ph  = document.getElementById('photo-placeholder');
+  img.src           = src;
+  img.style.display = 'block';
+  ph.style.display  = 'none';
+  // mostrar overlay al hacer hover (ya está en CSS, solo asegurar que el wrap lo tenga)
+  document.querySelector('.couple-photo-wrap').querySelector('.photo-overlay').style.display = 'flex';
+}
+
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Comprimir un poco si es muy grande
+  const reader = new FileReader();
+  reader.onload = e => {
+    const original = e.target.result;
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX = 400; // px máx por lado
+      let w = img.width, h = img.height;
+      if (w > h && w > MAX) { h = Math.round(h * MAX / w); w = MAX; }
+      else if (h > MAX)      { w = Math.round(w * MAX / h); h = MAX; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const compressed = canvas.toDataURL('image/jpeg', 0.82);
+      localStorage.setItem(LS_PHOTO, compressed);
+      showPhoto(compressed);
+      showToast('📷 ¡Foto actualizada!');
+    };
+    img.src = original;
+  };
+  reader.readAsDataURL(file);
+  // reset input para poder subir la misma foto de nuevo si quiere
+  event.target.value = '';
+}
+
+function saveNames() {
+  localStorage.setItem(LS_NAME1,   document.getElementById('name1').value.trim() || 'Nombre 1');
+  localStorage.setItem(LS_NAME2,   document.getElementById('name2').value.trim() || 'Nombre 2');
+  localStorage.setItem(LS_TAGLINE, document.getElementById('couple-tagline').value.trim() || 'Juntos hacia cada sueño ✨');
+}
+
+// ─── CONFIG ───────────────────────────────────────────
+// Estas claves se guardan en localStorage del dispositivo.
+// Si cambias de dispositivo, la app te pedirá configurarlas de nuevo.
+const LS_KEY_APIKEY = 'suenos-jsonbin-key';
+const LS_KEY_BINID  = 'suenos-jsonbin-bin';
+
+function getConfig() {
+  return {
+    key: localStorage.getItem(LS_KEY_APIKEY) || '',
+    bin: localStorage.getItem(LS_KEY_BINID)  || ''
+  };
+}
+
+function isConfigured() {
+  const { key, bin } = getConfig();
+  return key.length > 10 && bin.length > 10;
+}
+
+// ─── JSONBIN API ──────────────────────────────────────
+async function apiLoad() {
+  const { key, bin } = getConfig();
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${bin}/latest`, {
+    headers: { 'X-Master-Key': key }
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  return data.record || { goals: [], savings: [] };
+}
+
+async function apiSave(data) {
+  const { key, bin } = getConfig();
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${bin}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': key,
+      'X-Bin-Versioning': 'false'   // no acumula versiones innecesarias
+    },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+}
+
+// ─── STATE ────────────────────────────────────────────
+let state = { goals: [], savings: [] };
+
+async function loadState() {
+  setSyncStatus('saving', 'Cargando...');
+  try {
+    state = await apiLoad();
+    setSyncStatus('ok', 'Sincronizado');
+  } catch(e) {
+    console.error('Error cargando:', e);
+    setSyncStatus('error', 'Error al cargar');
+    showToast('⚠️ No se pudieron cargar los datos');
+  }
+}
+
+async function saveState() {
+  setSyncStatus('saving', 'Guardando...');
+  document.getElementById('sync-bar').classList.add('active');
+  try {
+    await apiSave(state);
+    setSyncStatus('ok', 'Guardado ✓');
+    setTimeout(() => setSyncStatus('ok', 'Sincronizado'), 2000);
+  } catch(e) {
+    console.error('Error guardando:', e);
+    setSyncStatus('error', 'Error al guardar');
+    showToast('⚠️ No se pudo guardar. Revisa tu conexión.');
+  } finally {
+    document.getElementById('sync-bar').classList.remove('active');
+  }
+}
+
+// ─── SYNC STATUS ──────────────────────────────────────
+function setSyncStatus(type, text) {
+  const dot   = document.getElementById('sync-dot');
+  const label = document.getElementById('sync-label');
+  if (!dot || !label) return;
+  dot.className = 'sync-dot' + (type === 'saving' ? ' saving' : type === 'error' ? ' error' : '');
+  label.textContent = text;
+}
+
+// ─── UTILS ────────────────────────────────────────────
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString('es-CO');
+}
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+
+function daysLeft(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr + 'T12:00:00');
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  return Math.ceil((d - now) / 86400000);
+}
+
+function monthsLeft(dateStr) {
+  if (!dateStr) return null;
+  return daysLeft(dateStr) / 30.44;
+}
+
+function goalSavings(goalId) {
+  return state.savings.filter(s => s.goalId === goalId);
+}
+
+function goalTotal(goalId) {
+  return goalSavings(goalId).reduce((acc, s) => acc + Number(s.amount), 0);
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('es-CO', { day:'numeric', month:'short', year:'numeric' });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function setBtnLoading(id, loading, label = '') {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled = loading;
+  if (loading) btn.textContent = '⏳ Guardando...';
+  else if (label) btn.textContent = label;
+}
+
+// ─── TABS ─────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', (i===0 && name==='goals') || (i===1 && name==='history'));
+  });
+  document.getElementById('tab-goals').style.display   = name==='goals'   ? 'block' : 'none';
+  document.getElementById('tab-history').style.display = name==='history' ? 'block' : 'none';
+  if (name==='history') renderHistory();
+}
+
+// ─── RENDER ───────────────────────────────────────────
+function render() {
+  renderSummary();
+  renderGoals();
+}
+
+function renderSummary() {
+  const totalSaved     = state.savings.reduce((acc, s) => acc + Number(s.amount), 0);
+  const totalTarget    = state.goals.reduce((acc, g) => acc + Number(g.targetAmount), 0);
+  const totalRemaining = Math.max(0, totalTarget - totalSaved);
+
+  document.getElementById('total-saved').textContent     = fmt(totalSaved);
+  document.getElementById('active-goals').textContent    = state.goals.length;
+  document.getElementById('total-remaining').textContent = fmt(totalRemaining);
+}
+
+function renderGoals() {
+  const list = document.getElementById('goals-list');
+
+  if (state.goals.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="big-emoji">🌙</div>
+        <h3>Sus sueños los esperan</h3>
+        <p style="margin-top:8px;font-size:0.9rem;">Presionen <strong style="color:var(--gold)">+</strong> para crear su primera meta juntos.</p>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = state.goals.map((g, idx) => {
+    const saved      = goalTotal(g.id);
+    const pct        = Math.min(100, (saved / g.targetAmount) * 100);
+    const remaining  = Math.max(0, g.targetAmount - saved);
+    const ml         = monthsLeft(g.targetDate);
+    const dl         = daysLeft(g.targetDate);
+    const reqMonthly = (ml && ml > 0) ? remaining / ml : null;
+
+    // Status badge
+    let statusHtml = '';
+    if (pct >= 100) {
+      statusHtml = `<span class="status-badge completed">🎉 ¡Meta cumplida!</span>`;
+    } else if (!g.targetDate) {
+      statusHtml = `<span class="status-badge no-date">📌 Sin fecha límite</span>`;
+    } else if (dl < 0) {
+      statusHtml = `<span class="status-badge behind">⚠️ Fecha vencida</span>`;
+    } else {
+      const entries = goalSavings(g.id);
+      let onTrack = true;
+      if (entries.length > 0 && reqMonthly) {
+        const oldest   = entries.reduce((a,b) => new Date(a.date)<new Date(b.date)?a:b);
+        const months   = Math.max(1, (new Date() - new Date(oldest.date)) / (30.44*86400000));
+        const avgMonthly = saved / months;
+        onTrack = avgMonthly >= reqMonthly * 0.8;
+      }
+      statusHtml = onTrack
+        ? `<span class="status-badge on-track">✓ Van por buen camino</span>`
+        : `<span class="status-badge behind">↑ Necesitan acelerar</span>`;
+    }
+
+    // Stats boxes
+    const stat1 = reqMonthly && reqMonthly > 0 ? fmt(reqMonthly)+'/mes' : '—';
+    const stat2 = remaining > 0 ? fmt(remaining) : '¡Listo!';
+    const stat3 = dl !== null ? (dl > 0 ? `${dl} días` : (dl===0?'¡Hoy!':'Vencida')) : 'Sin fecha';
+
+    // Recent savings (last 3)
+    const recentSavings = [...goalSavings(g.id)]
+      .sort((a,b) => new Date(b.date)-new Date(a.date))
+      .slice(0,3);
+
+    const historyHtml = recentSavings.length > 0 ? `
+      <div class="history-mini">
+        <div class="history-mini-title">Últimos aportes</div>
+        ${recentSavings.map(s => `
+          <div class="history-entry">
+            <div class="h-dot"></div>
+            <span>${s.note || 'Aporte'}</span>
+            <span class="h-date">${formatDate(s.date)}</span>
+            <span class="h-amount">${fmt(s.amount)}</span>
+            <span class="h-delete" onclick="deleteSaving('${s.id}')">✕</span>
+          </div>
+        `).join('')}
+      </div>` : '';
+
+    return `
+      <div class="goal-card" style="--accent-color:${g.color||'#f2c057'};animation-delay:${idx*0.08}s">
+        <div class="goal-card-top">
+          <div class="goal-emoji">${g.emoji}</div>
+          <div class="goal-info">
+            <div class="goal-name">${g.name}</div>
+            ${g.desc ? `<div class="goal-desc">${g.desc}</div>` : ''}
+          </div>
+          <div class="goal-actions">
+            <button class="icon-btn" onclick="openGoalModal('${g.id}')" title="Editar">✏️</button>
+            <button class="icon-btn" onclick="deleteGoal('${g.id}')" title="Eliminar">🗑</button>
+          </div>
+        </div>
+
+        <div class="goal-progress-area">
+          <div class="progress-numbers">
+            <span class="progress-saved">${fmt(saved)}</span>
+            <span class="progress-pct">${Math.round(pct)}%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width:${pct}%;background:${g.color||'#f2c057'}"></div>
+          </div>
+          <div style="margin-top:5px;"><span class="progress-target">de ${fmt(g.targetAmount)}</span></div>
+        </div>
+
+        <div class="goal-stats">
+          <div class="stat-box">
+            <div class="s-label">Ahorro/mes</div>
+            <div class="s-value" style="color:${g.color||'#f2c057'}">${stat1}</div>
+          </div>
+          <div class="stat-box">
+            <div class="s-label">Falta</div>
+            <div class="s-value">${stat2}</div>
+          </div>
+          <div class="stat-box">
+            <div class="s-label">Tiempo</div>
+            <div class="s-value">${stat3}</div>
+          </div>
+        </div>
+
+        ${statusHtml}
+        ${historyHtml}
+
+        <button class="add-savings-btn" onclick="openSavingsModal('${g.id}')">
+          + Registrar aporte
+        </button>
+      </div>`;
+  }).join('');
+}
+
+function renderHistory() {
+  const list = document.getElementById('history-list');
+  const allSavings = [...state.savings].sort((a,b) => new Date(b.date)-new Date(a.date));
+
+  if (allSavings.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="big-emoji">📋</div><h3>Sin aportes aún</h3></div>`;
+    return;
+  }
+
+  const goalMap = {};
+  state.goals.forEach(g => goalMap[g.id] = g);
+
+  list.innerHTML = allSavings.map(s => {
+    const g = goalMap[s.goalId] || {};
+    return `
+      <div class="history-full-entry">
+        <div class="h-emoji-badge">${g.emoji || '💰'}</div>
+        <div class="h-info">
+          <div class="h-goal">${g.name || 'Meta eliminada'}</div>
+          <div class="h-note">${s.note || 'Aporte'}</div>
+        </div>
+        <div class="h-right">
+          <div class="h-amt">${fmt(s.amount)}</div>
+          <div class="h-d">${formatDate(s.date)}</div>
+        </div>
+        <span class="h-delete" style="margin-left:8px;" onclick="deleteSaving('${s.id}');renderHistory()">✕</span>
+      </div>`;
+  }).join('');
+}
+
+// ─── GOAL MODAL ──────────────────────────────────────
+let editingGoalId = null;
+let selectedEmoji = '✈️';
+let selectedColor = '#f2c057';
+
+function openGoalModal(goalId = null) {
+  editingGoalId = goalId;
+  const title = document.getElementById('goal-modal-title');
+
+  if (goalId) {
+    const g = state.goals.find(g => g.id === goalId);
+    title.textContent = '✏️ Editar Meta';
+    document.getElementById('g-name').value   = g.name;
+    document.getElementById('g-desc').value   = g.desc || '';
+    document.getElementById('g-target').value = g.targetAmount;
+    document.getElementById('g-date').value   = g.targetDate || '';
+    selectedEmoji = g.emoji;
+    selectedColor = g.color || '#f2c057';
+  } else {
+    title.textContent = '✨ Nueva Meta';
+    document.getElementById('g-name').value   = '';
+    document.getElementById('g-desc').value   = '';
+    document.getElementById('g-target').value = '';
+    document.getElementById('g-date').value   = '';
+    selectedEmoji = '✈️';
+    selectedColor = '#f2c057';
+  }
+
+  document.querySelectorAll('.emoji-option').forEach(el => {
+    el.classList.toggle('selected', el.dataset.emoji === selectedEmoji);
+  });
+  document.querySelectorAll('.color-swatch').forEach(el => {
+    el.classList.toggle('selected', el.dataset.color === selectedColor);
+  });
+
+  document.getElementById('goal-modal').classList.add('open');
+}
+
+function closeGoalModal() {
+  document.getElementById('goal-modal').classList.remove('open');
+  editingGoalId = null;
+}
+
+async function saveGoal() {
+  const name   = document.getElementById('g-name').value.trim();
+  const desc   = document.getElementById('g-desc').value.trim();
+  const target = parseFloat(document.getElementById('g-target').value);
+  const date   = document.getElementById('g-date').value;
+
+  if (!name)              { showToast('💛 Escribe un nombre para la meta'); return; }
+  if (!target || target<=0){ showToast('💛 Ingresa un monto válido'); return; }
+
+  setBtnLoading('btn-save-goal', true);
+
+  if (editingGoalId) {
+    const idx = state.goals.findIndex(g => g.id === editingGoalId);
+    state.goals[idx] = { ...state.goals[idx], name, desc, targetAmount: target, targetDate: date, emoji: selectedEmoji, color: selectedColor };
+  } else {
+    state.goals.push({ id: uid(), name, desc, targetAmount: target, targetDate: date, emoji: selectedEmoji, color: selectedColor, createdAt: new Date().toISOString() });
+  }
+
+  await saveState();
+  render();
+  closeGoalModal();
+  setBtnLoading('btn-save-goal', false, editingGoalId ? '✏️ Actualizar Meta' : 'Guardar Meta ✨');
+  showToast(editingGoalId ? '✅ Meta actualizada' : '🌟 ¡Meta creada! A ahorrar...');
+}
+
+async function deleteGoal(goalId) {
+  if (!confirm('¿Eliminar esta meta y todos sus aportes?')) return;
+  state.goals   = state.goals.filter(g => g.id !== goalId);
+  state.savings = state.savings.filter(s => s.goalId !== goalId);
+  await saveState();
+  render();
+  showToast('🗑 Meta eliminada');
+}
+
+// ─── SAVINGS MODAL ───────────────────────────────────
+let savingsGoalId = null;
+
+function openSavingsModal(goalId) {
+  savingsGoalId = goalId;
+  const g = state.goals.find(g => g.id === goalId);
+  document.getElementById('sm-goal-name').textContent = g.name;
+  document.getElementById('s-amount').value = '';
+  document.getElementById('s-note').value   = '';
+  document.getElementById('s-date').value   = new Date().toISOString().split('T')[0];
+  document.getElementById('savings-modal').classList.add('open');
+}
+
+function closeSavingsModal() {
+  document.getElementById('savings-modal').classList.remove('open');
+  savingsGoalId = null;
+}
+
+async function saveSaving() {
+  const amount = parseFloat(document.getElementById('s-amount').value);
+  const date   = document.getElementById('s-date').value;
+  const note   = document.getElementById('s-note').value.trim();
+
+  if (!amount || amount<=0) { showToast('💛 Ingresa un monto válido'); return; }
+  if (!date)                { showToast('💛 Selecciona una fecha'); return; }
+
+  setBtnLoading('btn-save-saving', true);
+  state.savings.push({ id: uid(), goalId: savingsGoalId, amount, date, note });
+
+  const g      = state.goals.find(g => g.id === savingsGoalId);
+  const newTot = goalTotal(savingsGoalId);
+  const pct    = Math.round(Math.min(100, newTot / g.targetAmount * 100));
+
+  await saveState();
+  render();
+  closeSavingsModal();
+  setBtnLoading('btn-save-saving', false, 'Registrar 🚀');
+
+  if (pct >= 100) showToast(`🎉 ¡Increíble! ¡Cumplieron la meta "${g.name}"!`);
+  else            showToast(`✨ Aporte registrado — ${pct}% completado`);
+}
+
+async function deleteSaving(savingId) {
+  state.savings = state.savings.filter(s => s.id !== savingId);
+  await saveState();
+  render();
+  showToast('Aporte eliminado');
+}
+
+// ─── REFRESH ─────────────────────────────────────────
+async function refreshData() {
+  const overlay = document.getElementById('loading-overlay');
+  overlay.classList.remove('hidden');
+  await loadState();
+  render();
+  overlay.classList.add('hidden');
+  showToast('✓ Datos actualizados');
+}
+
+// ─── SETUP ───────────────────────────────────────────
+function showSetup() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('fab').style.display = 'none';
+  document.getElementById('setup-screen').classList.add('visible');
+}
+
+async function applySetup() {
+  const key = document.getElementById('setup-key').value.trim();
+  const bin = document.getElementById('setup-bin').value.trim();
+
+  if (key.length < 10) { alert('La Master Key no parece válida.'); return; }
+  if (bin.length < 10) { alert('El Bin ID no parece válido.'); return; }
+
+  localStorage.setItem(LS_KEY_APIKEY, key);
+  localStorage.setItem(LS_KEY_BINID,  bin);
+
+  document.getElementById('setup-screen').classList.remove('visible');
+  await startApp();
+}
+
+// ─── PICKERS ─────────────────────────────────────────
+document.getElementById('emoji-picker').addEventListener('click', e => {
+  const el = e.target.closest('.emoji-option');
+  if (!el) return;
+  selectedEmoji = el.dataset.emoji;
+  document.querySelectorAll('.emoji-option').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+});
+
+document.getElementById('color-picker').addEventListener('click', e => {
+  const el = e.target.closest('.color-swatch');
+  if (!el) return;
+  selectedColor = el.dataset.color;
+  document.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('selected'));
+  el.classList.add('selected');
+});
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// ─── INIT ─────────────────────────────────────────────
+async function startApp() {
+  const overlay = document.getElementById('loading-overlay');
+  overlay.classList.remove('hidden');
+
+  loadCoupleCard();
+  await loadState();
+  render();
+  showTab('goals');
+
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('fab').style.display = 'flex';
+  overlay.classList.add('hidden');
+}
+
+(async () => {
+  if (!isConfigured()) {
+    document.getElementById('loading-overlay').classList.add('hidden');
+    document.getElementById('setup-screen').classList.add('visible');
+  } else {
+    await startApp();
+  }
+})();
+</script>
+</body>
+</html>
